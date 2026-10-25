@@ -1,0 +1,24 @@
+# ESP-IDF build output
+firmware/build/
+firmware/sdkconfig
+firmware/sdkconfig.old
+firmware/managed_components/
+firmware/dependencies.lock
+
+# Host test build output
+test/host/build/
+
+# Editors / OS
+.vscode/
+.idea/
+*.swp
+.DS_Store
+
+# Audio content is personal (family recordings) - never commit it
+/content/
+*.mp3
+*.wav
+
+# Slicer output (keep STL/STEP/3MF sources, not machine-specific G-code)
+*.gcode
+*.bgcode

@@ -1,0 +1,21 @@
+item,part,qty_used,qty_ordered,price_eur_total,supplier,url,notes
+1,DFRobot MAX98357 I2S amplifier,1,2,17.00,Tinytronics,https://www.tinytronics.nl/en/audio/amplifiers/dfrobot-max98357-i2s-amplifier-module-2.5w,spare
+2,Speaker set 8 ohm 2 W JST-PH (2 pcs),1,1,3.00,Tinytronics,https://www.tinytronics.nl/en/audio/speakers/speakers/speaker-set-8%CF%89-2w-with-jst-ph-connector,
+3,DFRobot Fermion microSD module,1,2,8.50,Tinytronics,https://www.tinytronics.nl/en/data-storage/modules/dfrobot-fermion-microsd-card-module-for-arduino,
+4,SK6812 RGBWW strip warm white 60 LED/m 1 m,0.2,1,12.50,Tinytronics,https://www.tinytronics.nl/en/lighting/led-strips/led-strips/sk6812-digital-5050-rgbww-led-strip-60-leds-1m-warm-white,12 LEDs used
+5,SN74AHCT125N DIP-14,1,3,3.00,Tinytronics,https://www.tinytronics.nl/en/components/ics-and-microcontroller-chips/ics/sn74ahct125n-4-channel-level-converter-3.3v-to-5v-14-pin-dip,
+6,14-pin IC socket,1,2,0.70,Tinytronics,https://www.tinytronics.nl/en/components/sockets/14-pins-ic-socket,
+7,USB-C female to DIP adapter,1,3,2.25,Tinytronics,https://www.tinytronics.nl/en/cables-and-connectors/connectors/usb/usb-c-2.0-female-to-dip-adapter-including-headers,add 5.1k CC pull-downs
+8,Resistor 5.1k (10 pcs),2,10,0.50,Tinytronics,https://www.tinytronics.nl/en/components/resistors/resistors/resistor-5.1k%CF%89-1-4w-10-pieces,USB-C CC
+9,Polyfuse 1000 mA through-hole,1,3,3.60,Tinytronics,https://www.tinytronics.nl/en/components/fuses/self-restoring-fuse-pptc-polyfuse-1000ma-through-hole,
+10,Electrolytic 1000 uF 25 V (5 pcs),1,5,1.10,Tinytronics,https://www.tinytronics.nl/en/components/capacitors/aishi-elektrolytic-capacitor-1000uf-25v-5-pieces,star point
+11,Electrolytic 470 uF 25 V (5 pcs),1,5,0.75,Tinytronics,https://www.tinytronics.nl/en/components/capacitors/aishi-elektrolytic-capacitor-470uf-25v-5-pieces,LED strip
+12,Ceramic 100 nF 50 V,4,10,1.00,Tinytronics,https://www.tinytronics.nl/en/components/capacitors/ceramic-capacitor-100nf-50v,decoupling
+13,Ceramic 10 nF 50 V,2,5,0.50,Tinytronics,https://www.tinytronics.nl/en/components/capacitors/ceramic-capacitor-10nf-50v,encoder RC filter
+14,Resistor 100k (10 pcs),0,10,0.50,Tinytronics,https://www.tinytronics.nl/en/components/resistors/resistors/resistor-100k%CF%89-1-4w-10-pieces,amp GAIN if needed
+15,Resistor 330 ohm (10 pcs),1,10,0.50,Tinytronics,https://www.tinytronics.nl/en/components/resistors/resistors/resistor-330%CF%89-1-4w-10-pieces,LED data
+16,Resistor 10k (10 pcs),2,10,0.50,Tinytronics,https://www.tinytronics.nl/en/components/resistors/resistors/resistor-10k%CF%89-1-4w-10-pieces,encoder pull-ups
+17,Large push button 24/40 mm white,1,2,7.00,Tinytronics,https://www.tinytronics.nl/en/switches/manual-switches/push-buttons-and-switches/large-white-push-button-24mm-of-40mm-reset,lamp button
+18,Rotary encoder EC11 with push,1,3,2.25,Tinytronics,https://www.tinytronics.nl/en/switches/manual-switches/rotary-encoders/rotary-encoder-ec11-20mm,volume
+19,JST-PH 2p connector with cable,1,2,0.80,Tinytronics,https://www.tinytronics.nl/en/cables-and-connectors/cables-and-adapters/jst-compatible/jst-ph-2p-compatible-connector-with-cable,speaker
+20,Raspberry Pi USB-C power supply 5.1 V 3 A white,1,1,11.00,Tinytronics,https://www.tinytronics.nl/en/power/power-supplies/5v/raspberry-pi-usb-c-power-supply-5.1v-3a-white,CE marked

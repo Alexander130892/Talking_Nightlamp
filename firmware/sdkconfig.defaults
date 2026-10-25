@@ -1,0 +1,15 @@
+# Target: ESP32-WROOM-32, 4 MB flash, no PSRAM
+CONFIG_IDF_TARGET="esp32"
+CONFIG_ESPTOOLPY_FLASHSIZE_4MB=y
+
+# Room for the MP3 decoder later
+CONFIG_PARTITION_TABLE_SINGLE_APP_LARGE=y
+
+CONFIG_ESP_DEFAULT_CPU_FREQ_MHZ_240=y
+CONFIG_FREERTOS_HZ=1000
+
+# FAT long file names (heap-allocated buffer)
+CONFIG_FATFS_LFN_HEAP=y
+
+# Keep the brown-out detector on: a reset is better than silent corruption
+CONFIG_ESP_BROWNOUT_DET=y
