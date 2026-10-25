@@ -22,3 +22,10 @@ test/host/build/
 # Slicer output (keep STL/STEP/3MF sources, not machine-specific G-code)
 *.gcode
 *.bgcode
+
+# ESP-IDF build output (any project, incl. bringup/*)
+build/
+sdkconfig
+sdkconfig.old
+managed_components/
+dependencies.lock

@@ -7,12 +7,15 @@ passes only when every row in it passes.
 
 | # | Test | Expected | Result |
 |---|---|---|---|
+| A0a | Blink GPIO 2, 500 ms (bringup/01_blink) | LED blinks, log every 500 ms | ✔ 2026-10-25 |
+| A0b | Boot log: chip and flash | Note revision and flash size | ESP32 rev v3.1, 4 MB flash ✔ 2026-10-25 |
 | A1 | Regulator marking | AMS1117-3.3 | `1117 33` ✔ 2026-10-25 |
 | A2 | VIN with USB power | 4.6–4.8 V (diode present) | 4.8 V ✔ 2026-10-25 |
 | A3 | Diode test, near USB port | ~0.2 V fwd, open rev | 0.2 V / ~2 V (meter limit) ✔ 2026-10-25 |
 | A4 | USB-C breakout + CC resistors, C-to-C charger | 5.0–5.2 V on VBUS | |
 | A5 | 3V3 rail under full load (LEDs at budget + loud audio) | ≥ 3.25 V, no brown-out reset in 10 min | |
 | A6 | Supply current, idle / playing / worst case | ~0.15 A / ~0.4 A / ≤ 0.8 A | |
+
 
 ## B. RFID
 
