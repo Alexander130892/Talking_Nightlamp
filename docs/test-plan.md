@@ -33,6 +33,8 @@ passes only when every row in it passes.
 | B5 | Read range through the printed lid | ≥ 15 mm | |
 | B6 | Contactless bank card on lid | Unknown card, state unchanged | |
 | B7 | Two cards on reader | Collision every poll (HLTA also after failed select) | Collision every poll, 200 ms ✔ 2026-10-26 |
+| B8  | Auth key A + read block 4, CRYPTO1_OFF=1, two cards in turn | 16 bytes every poll, no deaf reader | A2 E6 49 06 + 55 42 6E 05: 16 × 00, ERR_MAGIC ✔ 2026-10-26 |
+| B8a | Same with CRYPTO1_OFF=0 | 1 read, then deaf for all cards until reset | ✔ 2026-10-26 |
 
 ## C. Storage and audio
 
