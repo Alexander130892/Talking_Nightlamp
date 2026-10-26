@@ -21,6 +21,7 @@ passes only when every row in it passes.
 
 | # | Test | Expected | Result |
 |---|---|---|---|
+| B0 | Write/read-back ModWidthReg (0x24) | 0x55 reads back | 0x55 ✔ 2026-10-26 |
 | B1 | Read VersionReg (0x37) | 0x91 / 0x92 (clones vary, non-zero, not 0xFF) | |
 | B2 | Card type of bundled cards | SAK 0x08 = MIFARE Classic 1K | |
 | B3 | Card left on reader 60 s | Reported present every poll | |
