@@ -28,9 +28,11 @@ passes only when every row in it passes.
 | B3 | Card left on reader 60 s | Reported present every poll | |
 | B3a | WUPA only, card left on reader | Alternates card / -- (READY → IDLE) | Alternating ✔ 2026-10-26 |
 | B3b | WUPA + retry, card left on reader | Card every poll, 220 ms period | ✔ 2026-10-26 |
+| B3c | Full cycle WUPA→SELECT→HLTA, card left on reader | UID every poll, 200 ms period | A2 E6 49 06, SAK 08 ✔ 2026-10-26 |
 | B4 | Card removed | Absent within 1 poll, grace starts | |
 | B5 | Read range through the printed lid | ≥ 15 mm | |
 | B6 | Contactless bank card on lid | Unknown card, state unchanged | |
+| B7  | Two cards on reader | Collision reported, no crash | Alternates collision / -- (cards left in READY) ✔ 2026-10-26 |
 
 ## C. Storage and audio
 
