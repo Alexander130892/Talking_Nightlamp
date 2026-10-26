@@ -7,11 +7,11 @@ passes only when every row in it passes.
 
 | # | Test | Expected | Result |
 |---|---|---|---|
-| A0a | Blink GPIO 2, 500 ms (bringup/01_blink) | LED blinks, log every 500 ms | ✔ 2026-10-25 |
-| A0b | Boot log: chip and flash | Note revision and flash size | ESP32 rev v3.1, 4 MB flash ✔ 2026-10-25 |
-| A1 | Regulator marking | AMS1117-3.3 | `1117 33` ✔ 2026-10-25 |
-| A2 | VIN with USB power | 4.6–4.8 V (diode present) | 4.8 V ✔ 2026-10-25 |
-| A3 | Diode test, near USB port | ~0.2 V fwd, open rev | 0.2 V / ~2 V (meter limit) ✔ 2026-10-25 |
+| A0a | Blink GPIO 2, 500 ms (bringup/01_blink) | LED blinks, log every 500 ms | [x] 2026-10-25 |
+| A0b | Boot log: chip and flash | Note revision and flash size | ESP32 rev v3.1, 4 MB flash [x] 2026-10-25 |
+| A1 | Regulator marking | AMS1117-3.3 | `1117 33` [x] 2026-10-25 |
+| A2 | VIN with USB power | 4.6–4.8 V (diode present) | 4.8 V [x] 2026-10-25 |
+| A3 | Diode test, near USB port | ~0.2 V fwd, open rev | 0.2 V / ~2 V (meter limit) [x] 2026-10-25 |
 | A4 | USB-C breakout + CC resistors, C-to-C charger | 5.0–5.2 V on VBUS | |
 | A5 | 3V3 rail under full load (LEDs at budget + loud audio) | ≥ 3.25 V, no brown-out reset in 10 min | |
 | A6 | Supply current, idle / playing / worst case | ~0.15 A / ~0.4 A / ≤ 0.8 A | |
@@ -21,20 +21,23 @@ passes only when every row in it passes.
 
 | # | Test | Expected | Result |
 |---|---|---|---|
-| B0 | Write/read-back ModWidthReg (0x24) | 0x55 reads back | 0x55 ✔ 2026-10-26 |
+| B0 | Write/read-back ModWidthReg (0x24) | 0x55 reads back | 0x55 [x] 2026-10-26 |
 
-| B1 | Read VersionReg (0x37) | 0x91 / 0x92 (clones vary, non-zero, not 0xFF) | |
+| B1 | Read VersionReg (0x37) | 0x91 / 0x92 (clones vary, non-zero, not 0xFF) | [x]2026-10-26|
 | B2 | Card type of bundled cards | SAK 0x08 = MIFARE Classic 1K | |
-| B3 | Card left on reader 60 s | Reported present every poll | |
-| B3a | WUPA only, card left on reader | Alternates card / -- (READY → IDLE) | Alternating ✔ 2026-10-26 |
-| B3b | WUPA + retry, card left on reader | Card every poll, 220 ms period | ✔ 2026-10-26 |
-| B3c | Full cycle WUPA→SELECT→HLTA, card left on reader | UID every poll, 200 ms period | A2 E6 49 06, SAK 08 ✔ 2026-10-26 |
+| B3 | Card left on reader 60 s | Reported present every poll | [x]2026-10-26|
+| B3a | WUPA only, card left on reader | Alternates card / -- (READY → IDLE) | Alternating [x] 2026-10-26 |
+| B3b | WUPA + retry, card left on reader | Card every poll, 220 ms period | [x] 2026-10-26 |
+| B3c | Full cycle WUPA→SELECT→HLTA, card left on reader | UID every poll, 200 ms period | A2 E6 49 06, SAK 08 [x] 2026-10-26 |
 | B4 | Card removed | Absent within 1 poll, grace starts | |
 | B5 | Read range through the printed lid | ≥ 15 mm | |
 | B6 | Contactless bank card on lid | Unknown card, state unchanged | |
-| B7 | Two cards on reader | Collision every poll (HLTA also after failed select) | Collision every poll, 200 ms ✔ 2026-10-26 |
+| B7 | Two cards on reader | Collision every poll (HLTA also after failed select) | Collision every poll, 200 ms [x] 2026-10-26 |
 | B8  | Auth key A + read block 4, CRYPTO1_OFF=1, two cards in turn | 16 bytes every poll, no deaf reader | A2 E6 49 06 + 55 42 6E 05: 16 × 00, ERR_MAGIC ✔ 2026-10-26 |
 | B8a | Same with CRYPTO1_OFF=0 | 1 read, then deaf for all cards until reset | ✔ 2026-10-26 |
+| B9  | Write record to block 4 (BOOT held), verify | WRITTEN + VERIFIED, 53 42 01 07 46 00… | A2 E6 49 06: story 7, hue 70 [x] 2026-10-26 |
+| B9a | No BOOT / BOOT held after write / 2nd card | No write / no 2nd write / untouched | [x] 2026-10-26|
+| B9b | Card removed and replaced | Record persists | [x] 2026-10-26|
 
 ## C. Storage and audio
 
