@@ -260,6 +260,43 @@ TEST(unknown_tag_during_grace_keeps_grace_timer)
     CHECK_EQ(CARD_FSM_PAUSED, card_fsm_state(&s_fsm));
 }
 
+/* ---- F13: two cards at once (collision) --------------------------- */
+
+static card_poll_t collision(void)
+{
+    card_poll_t p = poll_none();
+
+    p.b_present = true;  /* something answered WUPA            */
+    p.b_valid   = false; /* but no single card could be selected */
+    return p;            /* uid_len 0                           */
+}
+
+TEST(two_cards_reported_as_unknown_once)
+{
+    setup(0u);
+    CHECK_EQ(1, count(collision(), 30, CARD_ACT_UNKNOWN));
+    CHECK_EQ(CARD_FSM_IDLE, card_fsm_state(&s_fsm));
+}
+
+TEST(second_card_on_playing_card_chimes_then_pauses)
+{
+    setup(0u);
+    start_playing();
+    CHECK_EQ(CARD_ACT_LAMP_LOST, step(collision()));
+    CHECK_EQ(1, count(collision(), 30, CARD_ACT_UNKNOWN));
+    CHECK_EQ(CARD_FSM_PAUSED, card_fsm_state(&s_fsm));
+}
+
+TEST(second_card_removed_within_grace_restores)
+{
+    setup(0u);
+    start_playing();
+    (void)step(collision());
+    (void)step(collision());
+    CHECK_EQ(CARD_ACT_LAMP_RESTORE, step(card_a()));
+    CHECK_EQ(CARD_FSM_PLAYING, card_fsm_state(&s_fsm));
+}
+
 /* ---- Robustness --------------------------------------------------- */
 
 TEST(grace_works_across_timer_wrap)
@@ -287,5 +324,8 @@ static void run_suite(void)
     RUN(story_end_then_replace_card_plays_again);
     RUN(unknown_tag_reported_once_per_placement);
     RUN(unknown_tag_during_grace_keeps_grace_timer);
+    RUN(two_cards_reported_as_unknown_once);
+    RUN(second_card_on_playing_card_chimes_then_pauses);
+    RUN(second_card_removed_within_grace_restores);
     RUN(grace_works_across_timer_wrap);
 }

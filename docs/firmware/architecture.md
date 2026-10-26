@@ -61,7 +61,8 @@ record) and the current time in ms. Outputs: actions for the app
 
   From PLAYING, GRACE or PAUSED: a different valid card → PLAY(new) immediately.
   From any state: story finished → STOP, lamp fades to glow then off → IDLE.
-  Invalid / unknown tag in any state → UNKNOWN_CARD, state unchanged.
+  Invalid / unknown tag, or two cards at once, in any state → UNKNOWN_CARD,
+  state unchanged (grace timer keeps running).
 ```
 
 Parameters live in one config struct (`present_hits`, `grace_ms`,

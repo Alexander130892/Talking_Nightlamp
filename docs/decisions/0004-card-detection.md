@@ -20,10 +20,15 @@ Poll for presence every 100–200 ms:
 
 1. Send **WUPA** (wakes cards in IDLE *and* HALT).
 2. Anticollision + SELECT → read the UID, compare with the current card.
-3. Send HLTA.
+3. Send HLTA, **also when step 2 failed**. A card left in READY ignores the
+   next WUPA and drops back to IDLE, so presence would alternate between
+   "card" and "none". HLTA is an unexpected frame in READY: the card returns
+   to IDLE silently and answers the next WUPA. Verified in bring-up 03/04
+   (test plan B3a, B3c, B7).
 
 Answer with the same UID = present. No answer = absent for this poll.
-A different UID = card swap.
+A different UID = card swap. Something answered but no single card could be
+selected (two cards: collision) = unknown card, see requirement F13.
 
 Debounce asymmetrically:
 

@@ -28,8 +28,12 @@ typedef struct
 esp_err_t rc522_init(void);
 
 /**
- * One presence poll: WUPA, select, HLTA.
- * @return ESP_OK with *p_tag filled, ESP_ERR_NOT_FOUND if no tag answered.
+ * One presence poll: WUPA, select, HLTA. HLTA is sent whenever WUPA was
+ * answered, also if select failed, so no card is left in READY (ADR 0004).
+ * @return ESP_OK                    *p_tag filled
+ *         ESP_ERR_NOT_FOUND         no tag answered
+ *         ESP_ERR_INVALID_RESPONSE  a tag answered but none could be selected
+ *                                   (collision: two cards, BCC/CRC error)
  */
 esp_err_t rc522_poll(rc522_tag_t *p_tag);
 

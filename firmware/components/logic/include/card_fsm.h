@@ -14,6 +14,8 @@
  *  - Exception: the current card returning during GRACE restores on its
  *    first hit (LAMP_RESTORE), so a brief lift is never audible.
  *  - The grace timer keeps running while an unknown tag lies on the reader.
+ *  - Two cards at once (collision) are fed as b_present = true,
+ *    b_valid = false, uid_len = 0 and handled as an unknown tag (F13).
  *  - Each card_fsm_step() returns at most one action.
  *  - An invalid/unknown tag produces CARD_ACT_UNKNOWN once per placement
  *    (not every poll) and never changes the state.
