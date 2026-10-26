@@ -432,9 +432,11 @@ void app_main(void)
             }
             else
             {
-                ESP_LOGW(TAG, "#%3lu  ATQA %02X %02X, select %s",
+                /* Cards left in READY would ignore the next WUPA.
+                 * HLTA is "unexpected" in READY: back to IDLE, no answer. */
+                ESP_LOGW(TAG, "#%3lu  ATQA %02X %02X, select %s, HLTA %s",
                          (unsigned long)n_poll, atqa[0], atqa[1],
-                         xfer_name(res));
+                         xfer_name(res), xfer_name(picc_hlta()));
             }
         }
 

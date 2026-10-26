@@ -32,7 +32,7 @@ passes only when every row in it passes.
 | B4 | Card removed | Absent within 1 poll, grace starts | |
 | B5 | Read range through the printed lid | ≥ 15 mm | |
 | B6 | Contactless bank card on lid | Unknown card, state unchanged | |
-| B7  | Two cards on reader | Collision reported, no crash | Alternates collision / -- (cards left in READY) ✔ 2026-10-26 |
+| B7 | Two cards on reader | Collision every poll (HLTA also after failed select) | Collision every poll, 200 ms ✔ 2026-10-26 |
 
 ## C. Storage and audio
 
