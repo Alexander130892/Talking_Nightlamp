@@ -10,7 +10,7 @@ Machine-readable version: [`bom.csv`](bom.csv). Prices as ordered from
 |---|---|---|---|---|---|
 | 1 | [DFRobot MAX98357 I²S amplifier](https://www.tinytronics.nl/en/audio/amplifiers/dfrobot-max98357-i2s-amplifier-module-2.5w) | 1 | 2 | €17.00 | Spare: BTL outputs are easy to short while probing |
 | 2 | [Speaker set 8 Ω 2 W, JST-PH](https://www.tinytronics.nl/en/audio/speakers/speakers/speaker-set-8%CF%89-2w-with-jst-ph-connector) | 1 | 1 set (2 pcs) | €3.00 | |
-| 3 | [DFRobot Fermion microSD module](https://www.tinytronics.nl/en/data-storage/modules/dfrobot-fermion-microsd-card-module-for-arduino) | 1 | 2 | €8.50 | |
+| 3 | [DFRobot Fermion microSD module](https://www.tinytronics.nl/en/data-storage/modules/dfrobot-fermion-microsd-card-module-for-arduino) | 1 | 2 | €8.50 || 5 V supply; bridge R33–R35 for 3.3 V logic ([ADR 0012](../decisions/0012-microsd-module-mod.md)) |
 | 4 | [SK6812 RGBWW strip, warm white, 60 LED/m, 1 m](https://www.tinytronics.nl/en/lighting/led-strips/led-strips/sk6812-digital-5050-rgbww-led-strip-60-leds-1m-warm-white) | 12 LEDs (20 cm) | 1 m | €12.50 | |
 | 5 | [SN74AHCT125N, DIP-14](https://www.tinytronics.nl/en/components/ics-and-microcontroller-chips/ics/sn74ahct125n-4-channel-level-converter-3.3v-to-5v-14-pin-dip) | 1 | 3 | €3.00 | |
 | 6 | [14-pin IC socket](https://www.tinytronics.nl/en/components/sockets/14-pins-ic-socket) | 1 | 2 | €0.70 | |

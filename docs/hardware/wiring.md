@@ -10,9 +10,9 @@ Until then, this netlist is the reference. GPIO numbers follow
 USB-C breakout ──► polyfuse ──► STAR (+5V, 1000 µF) ─┬─► MAX98357A VIN ──► speaker 8 Ω
  (CC1, CC2 → 5.1 kΩ → GND)                          ├─► SK6812 strip 5V (+470 µF)
                                                      ├─► 74AHCT125 VCC (+100 nF)
+                                                     ├─► microSD module VCC (own 3.3 V LDO)
                                                      └─► ESP32 devkit VIN ──► AMS1117 ──► 3V3
-                                                                                ├─► RC522 3.3V
-                                                                                └─► microSD 3V3
+                                                                                └─► RC522 3.3V
 GND: every module returns to the STAR point.
 ```
 
@@ -21,15 +21,21 @@ GND: every module returns to the STAR point.
 | Net | Connects |
 |---|---|
 | VBUS_IN | USB-C breakout VBUS → polyfuse pin 1 |
-| +5V | polyfuse pin 2, 1000 µF (+), MAX98357A VIN, strip 5V, 470 µF (+) at strip, 74AHCT125 pin 14, ESP32 VIN |
-| +3V3 | ESP32 3V3 pin, RC522 3.3V, microSD 3V3, encoder pull-ups |
+| +5V | polyfuse pin 2, 1000 µF (+), MAX98357A VIN, strip 5V, 470 µF (+) at strip, 74AHCT125 pin 14, microSD module +5, ESP32 VIN |
+| +3V3 | ESP32 3V3 pin, RC522 3.3V, encoder pull-ups |
 | GND | USB-C GND, both capacitors (−), all module GNDs, 74AHCT125 pin 7 |
 | CC1 / CC2 | each through its own 5.1 kΩ to GND |
 
 **Never connect the RC522 to 5 V.** It's a 3.3 V part.
 
-The Fermion microSD module accepts 3.3–5 V; feed it 3.3 V so its logic levels
-match the ESP32 directly.
+**microSD module (DFRobot Fermion DFR0229): VCC on +5 V, and modified.**
+It has its own BL8555-33 regulator (needs ~5 V in) and a 1 kΩ / 2.2 kΩ
+divider on SCK, MOSI and SS, designed for 5 V logic. From a 3.3 V ESP32 the
+card would see only ~2.27 V (V_IH 2.06 V). The three 1 kΩ series resistors
+**R33, R34, R35 are bridged with solder**, so the card gets the full 3.3 V.
+MISO is wired directly and needs nothing. After the mod the module is
+**3.3 V logic only**: never connect it to a 5 V microcontroller.
+See [ADR 0012](../decisions/0012-microsd-module-mod.md).
 
 ## Signal nets
 

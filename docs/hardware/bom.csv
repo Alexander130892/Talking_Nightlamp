@@ -1,7 +1,7 @@
 item,part,qty_used,qty_ordered,price_eur_total,supplier,url,notes
 1,DFRobot MAX98357 I2S amplifier,1,2,17.00,Tinytronics,https://www.tinytronics.nl/en/audio/amplifiers/dfrobot-max98357-i2s-amplifier-module-2.5w,spare
 2,Speaker set 8 ohm 2 W JST-PH (2 pcs),1,1,3.00,Tinytronics,https://www.tinytronics.nl/en/audio/speakers/speakers/speaker-set-8%CF%89-2w-with-jst-ph-connector,
-3,DFRobot Fermion microSD module,1,2,8.50,Tinytronics,https://www.tinytronics.nl/en/data-storage/modules/dfrobot-fermion-microsd-card-module-for-arduino,
+3,DFRobot Fermion microSD module,1,2,8.50,Tinytronics,https://www.tinytronics.nl/en/data-storage/modules/dfrobot-fermion-microsd-card-module-for-arduino,5 V supply; bridge R33-R35 for 3.3 V logic (ADR 0012)
 4,SK6812 RGBWW strip warm white 60 LED/m 1 m,0.2,1,12.50,Tinytronics,https://www.tinytronics.nl/en/lighting/led-strips/led-strips/sk6812-digital-5050-rgbww-led-strip-60-leds-1m-warm-white,12 LEDs used
 5,SN74AHCT125N DIP-14,1,3,3.00,Tinytronics,https://www.tinytronics.nl/en/components/ics-and-microcontroller-chips/ics/sn74ahct125n-4-channel-level-converter-3.3v-to-5v-14-pin-dip,
 6,14-pin IC socket,1,2,0.70,Tinytronics,https://www.tinytronics.nl/en/components/sockets/14-pins-ic-socket,
