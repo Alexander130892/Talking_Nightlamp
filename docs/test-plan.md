@@ -44,7 +44,8 @@ passes only when every row in it passes.
 | # | Test | Expected | Result |
 |---|---|---|---|
 | C0 | microSD module mod: R33–R35 bridged | SCK/SS/MOSI → GND ≈ 2.2 kΩ, no shorts | As predicted [x] 2026-10-29 |
-| C1 | Mount FAT32 card, list `/stories` | Folders listed | |
+| C1 | Mount FAT32 card, list /stories | Folders listed | [x] 2026-10-29 (card was exFAT: reformatted FAT32/MBR) |
+| C1a | 256 KiB write + read-back verify at 10 MHz SPI | PASS | write 449 kB/s, read 431 kB/s (~36× MP3 need) [x] 2026-10-29 |
 | C2 | 1 kHz test tone | Clean tone, no clicks | |
 | C3 | Power-on with amp | No audible pop | |
 | C4 | MP3 playback 30 min | No dropouts | |

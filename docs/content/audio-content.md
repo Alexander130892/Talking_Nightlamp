@@ -65,3 +65,9 @@ A batch script will live in [`tools/`](../../tools/).
 
 Recordings are personal and are never committed to this repository
 (`.gitignore` excludes `content/`, `*.mp3`, `*.wav`).
+
+- macOS formats cards as exFAT by default (`diskutil list` shows `Windows_NTFS`).
+  Reformat: `diskutil eraseDisk FAT32 STORIES MBRFormat /dev/diskN` (check N twice).
+- After copying from a Mac, remove the hidden `._*` files and stop indexing:
+  `dot_clean -m /Volumes/STORIES` and `mdutil -i off /Volumes/STORIES`.
+  The firmware also ignores every file or folder whose name starts with `.`.
