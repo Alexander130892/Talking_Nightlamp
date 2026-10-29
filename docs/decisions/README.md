@@ -18,6 +18,7 @@ gets a new record that supersedes the old one.
 | [0010](0010-sourcing.md) | Parts from one EU shop instead of AliExpress | Accepted |
 | [0011](0011-firmware-framework.md) | ESP-IDF in C | Accepted |
 | [0012](0012-microsd-module-mod.md) | microSD module: 5 V supply, 1 kΩ series resistors bridged | Accepted |
+| [0013](0013-mp3-decoder.md) | MP3 decoder: minimp3 (CC0), vendored as a component | Accepted |
 
 Template:
 
