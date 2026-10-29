@@ -43,6 +43,7 @@ passes only when every row in it passes.
 
 | # | Test | Expected | Result |
 |---|---|---|---|
+| C0 | microSD module mod: R33–R35 bridged | SCK/SS/MOSI → GND ≈ 2.2 kΩ, no shorts | As predicted [x] 2026-10-29 |
 | C1 | Mount FAT32 card, list `/stories` | Folders listed | |
 | C2 | 1 kHz test tone | Clean tone, no clicks | |
 | C3 | Power-on with amp | No audible pop | |
