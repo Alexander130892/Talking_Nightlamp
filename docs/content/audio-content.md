@@ -20,6 +20,10 @@
     unknown.mp3       short neutral chime for unrecognised cards
 ```
 
+Generate `unknown.mp3` with `python3 tools/make_chime.py unknown.mp3`
+(standard library + ffmpeg). It is synthesised, so it carries no licence and
+the repository only needs the script, not the MP3.
+
 Folder number = `story_id` written on the card
 ([card format](../firmware/card-format.md)). Use three digits.
 
