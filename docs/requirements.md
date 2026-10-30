@@ -20,6 +20,7 @@ Gift deadline: 25 December 2026.
 | F11 | A rotary encoder sets the volume, limited by a firmware maximum. |
 | F12 | New cards can be added later by writing a story number onto a blank tag, without changing the box (nice to have). |
 | F13 | Two or more cards on the lid at once are treated as an unknown card (F9): one pulse + chime per placement. A playing story follows the normal grace rules: removing the extra card within 3 s continues it, otherwise it pauses. |
+| F14 | Internal pull-up, active low; mute (F14)
 
 ## Non-functional
 
