@@ -56,7 +56,7 @@ See [ADR 0012](../decisions/0012-microsd-module-mod.md).
 | GPIO 33 | MAX98357A DIN | |
 | GPIO 21 | MAX98357A SD | low = shutdown |
 | — | MAX98357A GAIN | floating = 9 dB; 100 kΩ to VIN = 3 dB |
-| GPIO 32 | 74AHCT125 1A (pin 2) | |
+| GPIO 32 | 74AHCT125 1A (pin 2) | 5.1kOhm pulldown added |
 | 74AHCT125 1Y (pin 3) | 330 Ω → strip DIN | resistor close to the first LED |
 | GND | 74AHCT125 1OE (pin 1) | OE is active low |
 | GND | 74AHCT125 2A, 3A, 4A (pins 5, 9, 12) | tie unused inputs |
