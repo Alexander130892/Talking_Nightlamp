@@ -56,7 +56,7 @@ passes only when every row in it passes.
 
 | # | Test | Expected | Result |
 |---|---|---|---|
-| D1 | All 12 LEDs warm white | Even colour | |
+| D1 | All 12 LEDs warm white | Even colour | [x] 2026-10-30 |
 | D2 | Fade 100 % → glow → off over 30 s in a dark room | No visible steps or flicker | |
 | D3 | Current limiter: request full RGBW white | Measured LED current ≤ 150 mA | |
 | D4 | Phone camera on the lamp | Note banding (informational) | |
