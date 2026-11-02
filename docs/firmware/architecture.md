@@ -31,7 +31,7 @@ calls.
 |---|---|---|---|
 | `audio` | highest | streaming | Read SD, decode, write I²S DMA buffers |
 | `rfid` | medium | 150 ms | Poll presence, post `CARD_SEEN(uid, record)` / `CARD_NONE` |
-| `input` | medium | 5 ms | Debounce button, decode encoder, post events |
+| `input` | medium | 10 ms | Debounce button, decode encoder, post events |
 | `app` | medium | event-driven + 20 ms tick | Run `card_fsm`, drive lamp and audio |
 | `lamp` | low | 20 ms (50 fps) | Animate, apply `lamp_model` + `power_limit`, push frame to RMT |
 
