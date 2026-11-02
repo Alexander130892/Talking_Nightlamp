@@ -70,3 +70,11 @@ To do: print settings and assembly order, see [mechanical/](../mechanical/).
 
 Run the acceptance tests in [test-plan.md](test-plan.md), including the
 volume measurement, before closing the box.
+
+### Flashing with the lamp's own power connected
+
+Plug the **laptop in first**, then the lamp's USB-C charger. Unplug in reverse.
+A USB-C host only attaches when VBUS is ~0 V at plug-in; with the lamp powered,
+leakage through the devkit's USB→VIN Schottky lifts the devkit's USB VBUS and
+the host refuses to enumerate. Once attached, both supplies may stay connected:
+the Schottky stops the 5.1 V lamp supply from feeding back into the laptop.
