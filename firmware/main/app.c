@@ -29,8 +29,21 @@ static void log_init(const char *p_name, esp_err_t err)
     }
 }
 
+/* Task priorities (docs/firmware/architecture.md, "Tasks") */
+#define PRIO_INPUT (5u)
+
 void app_start(void)
 {
+    const input_config_t input_cfg =
+    {
+        .lamp_btn        = BOARD_BTN_LAMP,
+        .enc_sw          = BOARD_ENC_SW,
+        .enc_a           = BOARD_ENC_A,
+        .enc_b           = BOARD_ENC_B,
+        .counts_per_step = BOARD_ENC_COUNTS_PER_STEP,
+        .task_prio       = PRIO_INPUT,
+    };
+
     /* 1. Amp muted first: no pop while everything else powers up. */
     log_init("audio", audio_init());
 
@@ -38,7 +51,7 @@ void app_start(void)
     log_init("storage", storage_init());
     log_init("rc522", rc522_init());
     log_init("lamp", lamp_strip_init(BOARD_LED_COUNT));
-    log_init("input", input_init());
+    log_init("input", input_init(&input_cfg));
 
     /* TODO: create the audio, rfid, input, app and lamp tasks
      *       (docs/firmware/architecture.md, "Tasks"). */

@@ -39,5 +39,6 @@
 #define BOARD_ENC_SW         (17) /* internal pull-up, active low */
 #define BOARD_ENC_A          (34) /* input-only: external 10k pull-up */
 #define BOARD_ENC_B          (35) /* input-only: external 10k pull-up */
+#define BOARD_ENC_COUNTS_PER_STEP (4) /* EC11 20 detents / 20 pulses */
 
 #endif /* BOARD_H */
