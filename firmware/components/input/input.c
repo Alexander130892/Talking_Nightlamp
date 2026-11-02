@@ -31,6 +31,11 @@ static QueueHandle_t      s_queue;
 static pcnt_unit_handle_t s_pcnt;
 static input_config_t     s_cfg;
 
+/* Shared between the input task and the app task (input_get_event) */
+static portMUX_TYPE       s_lock = portMUX_INITIALIZER_UNLOCKED;
+static int                s_pending;        /* steps not yet received */
+static bool               s_b_step_queued;  /* one ENC_STEP is in the queue */
+
 /* ---- Encoder: PCNT quadrature x4 ------------------------------------ */
 
 static esp_err_t encoder_init(void)
@@ -140,7 +145,6 @@ static void input_task(void *p_arg)
     button_t   lamp    = { .pin = s_cfg.lamp_btn };
     button_t   enc_sw  = { .pin = s_cfg.enc_sw };
     int        ref     = 0;    /* PCNT count at the last whole detent */
-    int        pending = 0;    /* steps not yet in the queue */
     TickType_t wake    = xTaskGetTickCount();
 
     (void)p_arg;
@@ -156,22 +160,33 @@ static void input_task(void *p_arg)
             post_press(INPUT_EVT_ENC_PRESS);
         }
 
-        /* Accumulate, then post as one event if there is room.
-         * Clamp so the sum always fits int8_t. */
-        pending += encoder_steps(&ref);
-        pending  = (pending > INT8_MAX) ? INT8_MAX :
-                   ((pending < INT8_MIN) ? INT8_MIN : pending);
-        if (0 != pending)
+        /* Accumulate; post a step event only if none is waiting.
+         * The sum itself is collected in input_get_event(). */
         {
-            const input_event_t evt =
-            {
-                .type  = INPUT_EVT_ENC_STEP,
-                .steps = (int8_t)pending,
-            };
+            const int steps = encoder_steps(&ref);
+            bool      b_post;
 
-            if (pdTRUE == xQueueSend(s_queue, &evt, 0))
+            taskENTER_CRITICAL(&s_lock);
+            s_pending += steps;
+            s_pending  = (s_pending > INT8_MAX) ? INT8_MAX :
+                         ((s_pending < INT8_MIN) ? INT8_MIN : s_pending);
+            b_post = (0 != s_pending) && !s_b_step_queued;
+            if (b_post)
             {
-                pending = 0;
+                s_b_step_queued = true;
+            }
+            taskEXIT_CRITICAL(&s_lock);
+
+            if (b_post)
+            {
+                const input_event_t evt = { .type = INPUT_EVT_ENC_STEP };
+
+                if (pdTRUE != xQueueSend(s_queue, &evt, 0))
+                {
+                    taskENTER_CRITICAL(&s_lock);
+                    s_b_step_queued = false;   /* retry next poll */
+                    taskEXIT_CRITICAL(&s_lock);
+                }
             }
         }
 
@@ -213,5 +228,29 @@ bool input_get_event(input_event_t *p_evt, uint32_t timeout_ms)
     {
         return false;
     }
-    return pdTRUE == xQueueReceive(s_queue, p_evt, pdMS_TO_TICKS(timeout_ms));
+    for (;;)
+    {
+        if (pdTRUE != xQueueReceive(s_queue, p_evt, pdMS_TO_TICKS(timeout_ms)))
+        {
+            return false;
+        }
+        if (INPUT_EVT_ENC_STEP != p_evt->type)
+        {
+            return true;
+        }
+
+        /* Collect the latest sum and allow the next step event */
+        taskENTER_CRITICAL(&s_lock);
+        p_evt->steps    = (int8_t)s_pending;
+        s_pending       = 0;
+        s_b_step_queued = false;
+        taskEXIT_CRITICAL(&s_lock);
+
+        if (0 != p_evt->steps)
+        {
+            return true;
+        }
+        /* +1 then -1 before the app looked: nothing to report, wait again
+         * (the timeout restarts, acceptable for a UI event loop). */
+    }
 }
