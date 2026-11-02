@@ -12,9 +12,11 @@ passes only when every row in it passes.
 | A1 | Regulator marking | AMS1117-3.3 | `1117 33` [x] 2026-10-25 |
 | A2 | VIN with USB power | 4.6–4.8 V (diode present) | 4.8 V [x] 2026-10-25 |
 | A3 | Diode test, near USB port | ~0.2 V fwd, open rev | 0.2 V / ~2 V (meter limit) [x] 2026-10-25 |
-| A4 | USB-C breakout + CC resistors, C-to-C charger | 5.0–5.2 V on VBUS | |
+| A4 | USB-C breakout + CC resistors, C-to-C charger | 5.0–5.2 V on VBUS | [x] |
 | A5 | 3V3 rail under full load (LEDs at budget + loud audio) | ≥ 3.25 V, no brown-out reset in 10 min | |
 | A6 | Supply current, idle / playing / worst case | ~0.15 A / ~0.4 A / ≤ 0.8 A | |
+| P1 | Lamp on own USB-C input (2× 5.1k Rd fitted), both plug orientations | Boots, button + encoder work | [x] 2026-11-02 |
+| P2 | Worst case: LEDs at cap + loud tone | VIN >= 4.5 V, no brownout | [x] 2026-11-02: 5.18 → ~4.9 V |
 
 
 ## B. RFID
