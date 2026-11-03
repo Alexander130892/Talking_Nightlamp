@@ -25,7 +25,7 @@
 #include <stdint.h>
 #include "pixel.h"
 
-#define LAMP_TINT_DEFAULT_PM (500u)
+#define LAMP_TINT_DEFAULT_PM (750u)
 
 void lamp_tint_apply(pixel_grbw_t *p_frame, size_t n, uint8_t hue,
                      uint16_t strength_pm);

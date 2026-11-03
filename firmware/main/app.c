@@ -12,7 +12,7 @@
 #include "audio.h"
 #include "storage.h"
 #include "rc522.h"
-#include "lamp_strip.h"
+#include "lamp.h"
 #include "input.h"
 
 static const char *TAG = "app";
@@ -31,6 +31,7 @@ static void log_init(const char *p_name, esp_err_t err)
 
 /* Task priorities (docs/firmware/architecture.md, "Tasks") */
 #define PRIO_INPUT (5u)
+#define PRIO_LAMP  (3u)
 
 void app_start(void)
 {
@@ -43,6 +44,11 @@ void app_start(void)
         .counts_per_step = BOARD_ENC_COUNTS_PER_STEP,
         .task_prio       = PRIO_INPUT,
     };
+    const lamp_config_t lamp_cfg =
+    {
+        .strip     = { .data_gpio = BOARD_LED_DATA, .n_pixels = BOARD_LED_COUNT },
+        .task_prio = PRIO_LAMP,
+    };
 
     /* 1. Amp muted first: no pop while everything else powers up. */
     log_init("audio", audio_init());
@@ -50,7 +56,7 @@ void app_start(void)
     /* 2. Storage, 3. RFID, 4. lamp, then controls. */
     log_init("storage", storage_init());
     log_init("rc522", rc522_init());
-    log_init("lamp", lamp_strip_init(BOARD_LED_COUNT));
+    log_init("lamp", lamp_start(&lamp_cfg));
     log_init("input", input_init(&input_cfg));
 
     /* TODO: create the audio, rfid, input, app and lamp tasks

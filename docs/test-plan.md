@@ -62,6 +62,7 @@ passes only when every row in it passes.
 | D2 | Fade 100 % → glow → off over 30 s in a dark room | No visible steps or flicker | |
 | D3 | Current limiter: request full RGBW white | Measured LED current ≤ 150 mA | |
 | D4 | Phone camera on the lamp | Note banding (informational) | |
+| D5 | Tint strength in the final enclosure: compare 750 vs 1000 pm, through the diffuser | Pick final LAMP_TINT_DEFAULT_PM | |
 
 ## E. Behaviour (requirements F1–F12)
 
