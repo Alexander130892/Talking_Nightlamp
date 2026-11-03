@@ -8,19 +8,20 @@ Gift deadline: 25 December 2026.
 | ID | Requirement |
 |---|---|
 | F1 | Placing a story card on the lid starts that card's story and warms up the lamp. |
-| F2 | Removing the card starts a 3 s grace period: audio keeps playing, the lamp signals the change. |
+| F2 | the grace signal: breathing, a dip to 60 % every 2 s. When the card comes back, the current dip finishes before the lamp is steady again, so it never cuts off mid-dip |
 | F3 | If the same card returns within the grace period, nothing is interrupted. |
 | F4 | After the grace period the story pauses and the playback position is kept in RAM. |
 | F5 | The same card placed on a paused box resumes the story. |
 | F6 | A paused story falls back to idle after a timeout (default 10 min) or a power cycle; the next placement starts from the beginning. |
 | F7 | A different card replaces the current story immediately, also during the grace period. |
 | F8 | When a story ends, the lamp fades to a dim glow, then off. |
-| F9 | A card or object the box doesn't recognise gives one soft lamp pulse and a short chime, and does not change the current state. |
+| F9 | the soft pulse: 0.8 s long, 25 % deep. It rises when the lamp is dim or off and dips when it’s bright, so it’s visible at any level. |
 | F10 | One large button toggles the lamp independently of any story. |
 | F11 | A rotary encoder sets the volume, limited by a firmware maximum. |
 | F12 | New cards can be added later by writing a story number onto a blank tag, without changing the box (nice to have). |
 | F13 | Two or more cards on the lid at once are treated as an unknown card (F9): one pulse + chime per placement. A playing story follows the normal grace rules: removing the extra card within 3 s continues it, otherwise it pauses. |
 | F14 | Internal pull-up, active low; mute (F14)
+| F15 | While a story plays, the warm white carries a faint tint in the card's colour (hue byte). The tint scales with brightness, so the night glow stays pure warm white.  mixes in the card’s colour (default 750 %)|
 
 ## Non-functional
 
