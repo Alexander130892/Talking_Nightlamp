@@ -11,7 +11,7 @@
 #include "board.h"
 #include "audio.h"
 #include "storage.h"
-#include "rc522.h"
+#include "rfid.h"
 #include "lamp.h"
 #include "input.h"
 
@@ -32,6 +32,7 @@ static void log_init(const char *p_name, esp_err_t err)
 /* Task priorities (docs/firmware/architecture.md, "Tasks") */
 #define PRIO_INPUT (5u)
 #define PRIO_LAMP  (3u)
+#define PRIO_RFID  (6u)
 #define PRIO_AUDIO (10u)   /* highest: never starve the I2S DMA */
 
 /* Volume (ADR 0009). Max gain is set after test C6 with the final GAIN pin. */
@@ -69,6 +70,20 @@ void app_start(void)
         .cs       = BOARD_SD_CS,
         .freq_khz = BOARD_SD_FREQ_KHZ,
     };
+    const rfid_config_t rfid_cfg =
+    {
+        .rc522 =
+        {
+            .host     = SPI3_HOST,
+            .sck      = BOARD_RC522_SCK,
+            .miso     = BOARD_RC522_MISO,
+            .mosi     = BOARD_RC522_MOSI,
+            .cs       = BOARD_RC522_CS,
+            .rst      = BOARD_RC522_RST,
+            .clock_hz = BOARD_RC522_CLOCK_HZ,
+        },
+        .task_prio = PRIO_RFID,
+    };
     const lamp_config_t lamp_cfg =
     {
         .strip     = { .data_gpio = BOARD_LED_DATA, .n_pixels = BOARD_LED_COUNT },
@@ -80,7 +95,7 @@ void app_start(void)
 
     /* 2. Storage, 3. RFID, 4. lamp, then controls. */
     log_init("storage", storage_init(&storage_cfg));
-    log_init("rc522", rc522_init());
+    log_init("rfid", rfid_start(&rfid_cfg));
     log_init("lamp", lamp_start(&lamp_cfg));
     log_init("input", input_init(&input_cfg));
 

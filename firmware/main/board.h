@@ -15,6 +15,7 @@
 #define BOARD_RC522_MOSI     (23)
 #define BOARD_RC522_CS       (5)  /* strapping pin, idles high */
 #define BOARD_RC522_RST      (22)
+#define BOARD_RC522_CLOCK_HZ (1000000) /* proven in bring-up 02-06 */
 
 /* microSD on SPI2 (HSPI) through the GPIO matrix.
  * MISO is NOT on GPIO 12: a card pulls MISO high, and GPIO 12 high at

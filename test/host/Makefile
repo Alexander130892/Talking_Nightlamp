@@ -10,7 +10,7 @@ CC      ?= gcc
 CFLAGS  := -std=c11 -Wall -Wextra -Werror -Wconversion -g -I$(LOGIC)/include
 BUILD   := build
 
-SUITES    := tag_format card_fsm power_limit lamp_model
+SUITES    := tag_format card_fsm power_limit lamp_model card_reader
 SPEC_ONLY :=
 
 SRCS := $(wildcard $(LOGIC)/*.c)
