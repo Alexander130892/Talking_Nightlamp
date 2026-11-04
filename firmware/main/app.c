@@ -44,6 +44,15 @@ void app_start(void)
         .counts_per_step = BOARD_ENC_COUNTS_PER_STEP,
         .task_prio       = PRIO_INPUT,
     };
+    const storage_config_t storage_cfg =
+    {
+        .host     = SPI2_HOST,
+        .sck      = BOARD_SD_SCK,
+        .miso     = BOARD_SD_MISO,
+        .mosi     = BOARD_SD_MOSI,
+        .cs       = BOARD_SD_CS,
+        .freq_khz = BOARD_SD_FREQ_KHZ,
+    };
     const lamp_config_t lamp_cfg =
     {
         .strip     = { .data_gpio = BOARD_LED_DATA, .n_pixels = BOARD_LED_COUNT },
@@ -54,7 +63,7 @@ void app_start(void)
     log_init("audio", audio_init());
 
     /* 2. Storage, 3. RFID, 4. lamp, then controls. */
-    log_init("storage", storage_init());
+    log_init("storage", storage_init(&storage_cfg));
     log_init("rc522", rc522_init());
     log_init("lamp", lamp_start(&lamp_cfg));
     log_init("input", input_init(&input_cfg));

@@ -23,6 +23,7 @@
 #define BOARD_SD_MISO        (27)
 #define BOARD_SD_MOSI        (13)
 #define BOARD_SD_CS          (4)
+#define BOARD_SD_FREQ_KHZ    (10000) /* bring-up 07: ~430 kB/s, 36x MP3 need */
 
 /* MAX98357A on I2S0 */
 #define BOARD_I2S_BCLK       (26)

@@ -1,0 +1,4 @@
+# Same as the firmware: 240 MHz for decoding, long file names on the SD card
+CONFIG_ESP_DEFAULT_CPU_FREQ_MHZ_240=y
+CONFIG_FATFS_LFN_HEAP=y
+CONFIG_ESPTOOLPY_FLASHSIZE_4MB=y
