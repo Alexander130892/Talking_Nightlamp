@@ -54,6 +54,7 @@ passes only when every row in it passes.
 | C5 | Playback while RFID polling + LED animating | No dropouts | |
 | C6 | **Max volume at 30 cm (phone SPL meter)** | Quiet-conversation level; record dB value and GAIN setting | |
 | C7 | Buzz heard during SD access (bring-up 14), persists with amp SD pin held low. Observe in later steps; if it stays, locate the source (speaker unplugged? ear to SD module?) before adding a 10k pull-down on GPIO 21 | Open | |
+| C8 | Crackle on speech at normal volume (not in the MP3, not at volume 0, 0 DMA underruns, decoder bit-exact). Suspects: supply sag on peaks, speaker rattle, breadboard wiring. Re-check in the final build | Open | |
 
 ## D. Lamp
 

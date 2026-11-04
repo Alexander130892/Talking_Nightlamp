@@ -32,6 +32,11 @@ static void log_init(const char *p_name, esp_err_t err)
 /* Task priorities (docs/firmware/architecture.md, "Tasks") */
 #define PRIO_INPUT (5u)
 #define PRIO_LAMP  (3u)
+#define PRIO_AUDIO (10u)   /* highest: never starve the I2S DMA */
+
+/* Volume (ADR 0009). Max gain is set after test C6 with the final GAIN pin. */
+#define AUDIO_MAX_GAIN_DB   (0)
+#define AUDIO_START_VOLUME  (10u)
 
 void app_start(void)
 {
@@ -43,6 +48,17 @@ void app_start(void)
         .enc_b           = BOARD_ENC_B,
         .counts_per_step = BOARD_ENC_COUNTS_PER_STEP,
         .task_prio       = PRIO_INPUT,
+    };
+    const audio_config_t audio_cfg =
+    {
+        .bclk         = BOARD_I2S_BCLK,
+        .ws           = BOARD_I2S_LRC,
+        .dout         = BOARD_I2S_DIN,
+        .amp_sd       = BOARD_AMP_SD,
+        .max_gain_db  = AUDIO_MAX_GAIN_DB,
+        .start_volume = AUDIO_START_VOLUME,
+        .task_prio    = PRIO_AUDIO,
+        .core         = 1,
     };
     const storage_config_t storage_cfg =
     {
@@ -60,7 +76,7 @@ void app_start(void)
     };
 
     /* 1. Amp muted first: no pop while everything else powers up. */
-    log_init("audio", audio_init());
+    log_init("audio", audio_init(&audio_cfg));
 
     /* 2. Storage, 3. RFID, 4. lamp, then controls. */
     log_init("storage", storage_init(&storage_cfg));
