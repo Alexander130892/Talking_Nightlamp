@@ -7,16 +7,16 @@ Gift deadline: 25 December 2026.
 
 | ID | Requirement |
 |---|---|
-| F1 | Placing a story card on the lid starts that card's story and warms up the lamp. |
+| F1 | Placing a story card warms up the lamp in the card's colour over 8 s; then the story starts. |
 | F2 | the grace signal: breathing, a dip to 60 % every 2 s. When the card comes back, the current dip finishes before the lamp is steady again, so it never cuts off mid-dip |
 | F3 | If the same card returns within the grace period, nothing is interrupted. |
 | F4 | After the grace period the story pauses and the playback position is kept in RAM. |
 | F5 | The same card placed on a paused box resumes the story. |
 | F6 | A paused story falls back to idle after a timeout (default 10 min) or a power cycle; the next placement starts from the beginning. |
 | F7 | A different card replaces the current story immediately, also during the grace period. |
-| F8 | When a story ends, the lamp fades to a dim glow, then off. |
+| F8 | When a story ends, the lamp fades to a dim glow in 30 s, glows 15 min, then fades off in 2 min. If the lamp was switched off during the story, it stays off. |
+| F10 | One large button toggles the lamp at any time. During a story the story keeps playing and the choice holds until a card is placed again. Without a story it toggles plain warm white. |
 | F9 | the soft pulse: 0.8 s long, 25 % deep. It rises when the lamp is dim or off and dips when it’s bright, so it’s visible at any level. |
-| F10 | One large button toggles the lamp independently of any story. |
 | F11 | A rotary encoder sets the volume, limited by a firmware maximum. |
 | F12 | New cards can be added later by writing a story number onto a blank tag, without changing the box (nice to have). |
 | F13 | Two or more cards on the lid at once are treated as an unknown card (F9): one pulse + chime per placement. A playing story follows the normal grace rules: removing the extra card within 3 s continues it, otherwise it pauses. |
