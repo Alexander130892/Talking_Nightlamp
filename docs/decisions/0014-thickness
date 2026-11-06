@@ -1,0 +1,25 @@
+# 0014. RFID through the lid: module flipped, ≤ 1 cm to the card
+
+Date: 2026-11-06
+Status: Accepted
+
+## Context
+The card is read through the top of the enclosure. RC522 range with an
+ISO card is typically 3–5 cm in free air; metal near the antenna (speaker
+magnet, LED strip copper, screws) detunes it and can halve that.
+
+## Decision
+- RC522 module mounted **component side down**: header pins point into the
+  box, the card reads through the bare back of the PCB (+1.6 mm).
+- Lid thickness + air gap to the PCB **≤ 10 mm**.
+- **No metal over the antenna footprint**; LED strip around the card area
+  with ≥ 10 mm clearance from the coil edge; speaker as far from the
+  antenna as the layout allows.
+- Range not measured with spacers; verified once with a 1 cm paper stack
+  (center and corner) before the lid is printed.
+
+## Consequences
+- Lid and module mount are designed together; the module needs a flat seat
+  directly under the card area.
+- If the final build reads unreliably, the first suspect is metal near the
+  coil, not the lid thickness.
