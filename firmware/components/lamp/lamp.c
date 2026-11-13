@@ -24,6 +24,7 @@ typedef enum
     CMD_FADE,
     CMD_PULSE,
     CMD_BREATHE,
+    CMD_FLICKER,
     CMD_TINT,
 } cmd_type_t;
 
@@ -32,7 +33,7 @@ typedef struct
     cmd_type_t type;
     uint16_t   level_pm;      /* FADE */
     uint32_t   dur_ms;        /* FADE */
-    bool       b_on;          /* BREATHE */
+    bool       b_on;          /* BREATHE, FLICKER */
     uint8_t    hue;           /* TINT */
     uint16_t   strength_pm;   /* TINT */
 } cmd_t;
@@ -79,6 +80,7 @@ static void lamp_task(void *p_arg)
                 case CMD_FADE:    lamp_anim_fade_to(&anim, cmd.level_pm, cmd.dur_ms, t); break;
                 case CMD_PULSE:   lamp_anim_pulse(&anim, t);                             break;
                 case CMD_BREATHE: lamp_anim_breathe(&anim, cmd.b_on, t);                 break;
+                case CMD_FLICKER: lamp_anim_flicker(&anim, cmd.b_on, t);                 break;
                 case CMD_TINT:    hue = cmd.hue; strength_pm = cmd.strength_pm;          break;
                 default:                                                                 break;
             }
@@ -128,6 +130,13 @@ void lamp_pulse(void)
 void lamp_breathe(bool b_on)
 {
     const cmd_t cmd = { .type = CMD_BREATHE, .b_on = b_on };
+
+    post(&cmd);
+}
+
+void lamp_flicker(bool b_on)
+{
+    const cmd_t cmd = { .type = CMD_FLICKER, .b_on = b_on };
 
     post(&cmd);
 }

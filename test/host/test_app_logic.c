@@ -189,6 +189,78 @@ TEST(other_card_during_wait_replaces_story)
     CHECK_EQ(8, cmd.arg);
 }
 
+/* ---- F16: candle flicker ---------------------------------------------- */
+
+TEST(flicker_starts_with_the_story_not_during_warmup)
+{
+    const card_poll_t c = card(1u, 7u);
+    app_cmd_t         cmd;
+
+    setup(true);
+    feed(&c, 600u);
+    CHECK_EQ(0, total(APP_CMD_LAMP_FLICKER, NULL));
+    feed(&c, APP_STORY_DELAY_MS);
+    CHECK_EQ(1, total(APP_CMD_LAMP_FLICKER, &cmd));
+    CHECK_EQ(1, cmd.arg);
+}
+
+TEST(flicker_stops_for_grace_and_comes_back)
+{
+    const card_poll_t c = card(1u, 7u);
+    app_cmd_t         cmd;
+
+    setup(true);
+    feed(&c, 600u + APP_STORY_DELAY_MS);
+    clear_log();
+    feed(&NO_CARD, 1000u);                      /* grace: breathing */
+    CHECK_EQ(1, total(APP_CMD_LAMP_FLICKER, &cmd));
+    CHECK_EQ(0, cmd.arg);
+    clear_log();
+    feed(&c, 300u);                             /* back */
+    CHECK_EQ(1, total(APP_CMD_LAMP_FLICKER, &cmd));
+    CHECK_EQ(1, cmd.arg);
+}
+
+TEST(paused_light_is_steady)
+{
+    const card_poll_t c = card(1u, 7u);
+    app_cmd_t         cmd;
+
+    setup(true);
+    feed(&c, 600u + APP_STORY_DELAY_MS);
+    feed(&NO_CARD, 4000u);
+    clear_log();
+    feed(&NO_CARD, 2000u);                      /* still paused */
+    CHECK_EQ(0, total(APP_CMD_LAMP_FLICKER, NULL));
+    clear_log();
+    feed(&c, 600u);                             /* resume */
+    CHECK_EQ(1, total(APP_CMD_LAMP_FLICKER, &cmd));
+    CHECK_EQ(1, cmd.arg);
+}
+
+TEST(flicker_stops_at_story_end)
+{
+    const card_poll_t c = card(1u, 7u);
+    app_cmd_t         cmd;
+
+    setup(true);
+    feed(&c, 600u + APP_STORY_DELAY_MS);
+    clear_log();
+    collect(app_logic_story_end(&s_app, false, s_now));
+    CHECK_EQ(1, total(APP_CMD_LAMP_FLICKER, &cmd));
+    CHECK_EQ(0, cmd.arg);
+}
+
+TEST(button_lamp_without_story_never_flickers)
+{
+    setup(true);
+    clear_log();
+    press(APP_IN_LAMP_PRESS, 0);
+    s_now += 60000u;
+    collect(app_logic_tick(&s_app, s_now));
+    CHECK_EQ(0, total(APP_CMD_LAMP_FLICKER, NULL));
+}
+
 /* ---- F7: another card --------------------------------------------------- */
 
 TEST(other_card_switches_story)
@@ -493,6 +565,11 @@ static void run_suite(void)
     RUN(short_lift_breathes_and_restores_without_pause);
     RUN(long_lift_pauses_lamp_stays_full_and_resume_works);
     RUN(other_card_switches_story);
+    RUN(flicker_starts_with_the_story_not_during_warmup);
+    RUN(flicker_stops_for_grace_and_comes_back);
+    RUN(paused_light_is_steady);
+    RUN(flicker_stops_at_story_end);
+    RUN(button_lamp_without_story_never_flickers);
     RUN(story_waits_for_the_light);
     RUN(paused_before_start_starts_on_return);
     RUN(other_card_during_wait_replaces_story);

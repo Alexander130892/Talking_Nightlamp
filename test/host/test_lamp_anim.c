@@ -146,6 +146,154 @@ TEST(works_across_counter_wrap)
     CHECK_EQ(1000, lamp_anim_level(&s_a, t0 + 600u));
 }
 
+/* ---- Candle flicker (F16) -------------------------------------------- */
+
+#define FRAME_MS (20u)
+
+static void flicker_run(uint32_t ms, uint16_t *p_min, uint16_t *p_max,
+                        uint32_t *p_max_step, uint64_t *p_sum, uint32_t *p_n,
+                        uint32_t *p_t)
+{
+    uint16_t prev = lamp_anim_level(&s_a, *p_t);
+
+    for (uint32_t e = 0u; e < ms; e += FRAME_MS)
+    {
+        uint16_t lv;
+        uint32_t step;
+
+        *p_t += FRAME_MS;
+        lv    = lamp_anim_level(&s_a, *p_t);
+        step  = (lv > prev) ? (uint32_t)(lv - prev) : (uint32_t)(prev - lv);
+        *p_min = (lv < *p_min) ? lv : *p_min;
+        *p_max = (lv > *p_max) ? lv : *p_max;
+        *p_max_step = (step > *p_max_step) ? step : *p_max_step;
+        *p_sum += lv;
+        (*p_n)++;
+        prev = lv;
+    }
+}
+
+TEST(flicker_stays_within_depth_and_never_above_base)
+{
+    uint16_t mn = 0xFFFFu, mx = 0u;
+    uint32_t mstep = 0u, n = 0u, t = 0u;
+    uint64_t sum = 0u;
+
+    lamp_anim_init(&s_a);
+    lamp_anim_fade_to(&s_a, 1000u, 0u, 0u);
+    lamp_anim_flicker(&s_a, true, 0u);
+    flicker_run(60000u, &mn, &mx, &mstep, &sum, &n, &t);
+    CHECK(mx <= 1000u);
+    CHECK(mn >= (1000u - LAMP_ANIM_FLICKER_DIP_PM));
+    CHECK(mn < 900u);                            /* it does move */
+}
+
+TEST(flicker_has_no_jumps_between_frames)
+{
+    uint16_t mn = 0xFFFFu, mx = 0u;
+    uint32_t mstep = 0u, n = 0u, t = 0u;
+    uint64_t sum = 0u;
+
+    lamp_anim_init(&s_a);
+    lamp_anim_fade_to(&s_a, 1000u, 0u, 0u);
+    lamp_anim_flicker(&s_a, true, 0u);
+    flicker_run(60000u, &mn, &mx, &mstep, &sum, &n, &t);
+    /* fastest glide: a 20 % dip with a 60 ms time constant, 20 ms frames */
+    CHECK(mstep <= 70u);
+}
+
+TEST(flicker_average_is_a_gentle_dim)
+{
+    uint16_t mn = 0xFFFFu, mx = 0u;
+    uint32_t mstep = 0u, n = 0u, t = 0u;
+    uint64_t sum = 0u;
+    uint32_t avg;
+
+    lamp_anim_init(&s_a);
+    lamp_anim_fade_to(&s_a, 1000u, 0u, 0u);
+    lamp_anim_flicker(&s_a, true, 0u);
+    flicker_run(60000u, &mn, &mx, &mstep, &sum, &n, &t);
+    avg = (uint32_t)(sum / n);
+    CHECK(avg >= 900u);
+    CHECK(avg <= 970u);
+}
+
+TEST(flicker_is_not_periodic)
+{
+    uint16_t w1[100];
+    uint16_t w2[100];
+    uint32_t t = 0u;
+    uint32_t differ = 0u;
+
+    lamp_anim_init(&s_a);
+    lamp_anim_fade_to(&s_a, 1000u, 0u, 0u);
+    lamp_anim_flicker(&s_a, true, 0u);
+    for (uint32_t i = 0u; i < 100u; i++)
+    {
+        t += FRAME_MS;
+        w1[i] = lamp_anim_level(&s_a, t);
+    }
+    for (uint32_t i = 0u; i < 100u; i++)
+    {
+        t += FRAME_MS;
+        w2[i] = lamp_anim_level(&s_a, t);
+    }
+    for (uint32_t i = 0u; i < 100u; i++)
+    {
+        differ += (w1[i] != w2[i]) ? 1u : 0u;
+    }
+    CHECK(differ > 50u);                         /* two 2 s windows differ */
+}
+
+TEST(flicker_stop_glides_back_to_base)
+{
+    uint32_t t = 0u;
+
+    lamp_anim_init(&s_a);
+    lamp_anim_fade_to(&s_a, 1000u, 0u, 0u);
+    lamp_anim_flicker(&s_a, true, 0u);
+    for (uint32_t i = 0u; i < 200u; i++)
+    {
+        t += FRAME_MS;
+        (void)lamp_anim_level(&s_a, t);
+    }
+    lamp_anim_flicker(&s_a, false, t);
+    for (uint32_t i = 0u; i < 60u; i++)          /* 1.2 s */
+    {
+        t += FRAME_MS;
+        (void)lamp_anim_level(&s_a, t);
+    }
+    CHECK(!s_a.b_flicker);
+    CHECK_EQ(1000, lamp_anim_level(&s_a, t + FRAME_MS));
+}
+
+TEST(flicker_follows_the_base_level)
+{
+    uint16_t mn = 0xFFFFu, mx = 0u;
+    uint32_t mstep = 0u, n = 0u, t = 0u;
+    uint64_t sum = 0u;
+
+    lamp_anim_init(&s_a);
+    lamp_anim_fade_to(&s_a, 500u, 0u, 0u);
+    lamp_anim_flicker(&s_a, true, 0u);
+    flicker_run(20000u, &mn, &mx, &mstep, &sum, &n, &t);
+    CHECK(mx <= 500u);
+    CHECK(mn >= (500u * (1000u - LAMP_ANIM_FLICKER_DIP_PM)) / 1000u);
+}
+
+TEST(flicker_off_when_dark)
+{
+    uint32_t t = 0u;
+
+    lamp_anim_init(&s_a);
+    lamp_anim_flicker(&s_a, true, 0u);
+    for (uint32_t i = 0u; i < 100u; i++)
+    {
+        t += FRAME_MS;
+        CHECK_EQ(0, lamp_anim_level(&s_a, t));
+    }
+}
+
 static void run_suite(void)
 {
     RUN(starts_off);
@@ -162,4 +310,11 @@ static void run_suite(void)
     RUN(breathe_stop_finishes_current_dip);
     RUN(breathe_restart_while_stopping_keeps_breathing);
     RUN(works_across_counter_wrap);
+    RUN(flicker_stays_within_depth_and_never_above_base);
+    RUN(flicker_has_no_jumps_between_frames);
+    RUN(flicker_average_is_a_gentle_dim);
+    RUN(flicker_is_not_periodic);
+    RUN(flicker_stop_glides_back_to_base);
+    RUN(flicker_follows_the_base_level);
+    RUN(flicker_off_when_dark);
 }

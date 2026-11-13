@@ -41,6 +41,9 @@ void lamp_pulse(void);
 /** Breathing on/off (F2 grace signal). Off lets the current dip finish. */
 void lamp_breathe(bool b_on);
 
+/** Candle flicker on/off (F16). Off glides back to the steady level. */
+void lamp_flicker(bool b_on);
+
 /** Card colour tint (F15). strength_pm 0 = plain warm white. */
 void lamp_set_tint(uint8_t hue, uint16_t strength_pm);
 

@@ -18,6 +18,9 @@
  *    story keeps playing; the choice holds until the next card placement.
  *    Without a story the lamp toggles plain warm white.
  *  - Card lifted: breathing (F2). Paused: breathing stops, lamp stays full.
+ *  - Candle flicker (F16) only while story audio plays: it starts with the
+ *    audio (not during the warm-up), stops for grace (breathing instead),
+ *    pause, end and errors. The lamp button without a story is steady.
  *  - Story end or pause timeout (F6, F8): fade to glow in APP_GLOW_FADE_MS,
  *    hold APP_GLOW_HOLD_MS, fade off in APP_OFF_FADE_MS. If she switched the
  *    lamp off, it stays off.
@@ -44,10 +47,10 @@
 #define APP_VOLUME_MAX      (15u)
 #define APP_VOLUME_START    (10u)
 #define APP_LEVEL_FULL_PM   (1000u)
-#define APP_LEVEL_GLOW_PM   (80u)          /* 20 LEDs at W = 1; tune in D2 */
+#define APP_LEVEL_GLOW_PM   (80u)          /* all LEDs at W = 1; tune in D2 */
 #define APP_WARMUP_MS       (15000u)        /* new story: slow warm-up */
 #define APP_RESUME_MS       (2000u)         /* resume: back to full */
-#define APP_STORY_DELAY_MS  (8000u)        /* audio waits for the light */
+#define APP_STORY_DELAY_MS  (8000u)         /* audio waits for the light */
 #define APP_SWITCH_DELAY_MS (2000u)         /* lamp already lit: short wait */
 #define APP_MUTE_GUARD_MS   (1000u)         /* knob wobble after a press */
 #define APP_TOGGLE_MS       (500u)
@@ -57,7 +60,7 @@
 #define APP_ERROR_FADE_MS   (2000u)
 #define APP_FAULT_PULSES    (3u)
 #define APP_FAULT_PULSE_MS  (1000u)
-#define APP_TINT_PM         (LAMP_TINT_DEFAULT_PM)   /* D5: 750 vs 1000 */
+#define APP_TINT_PM         (0u)   /* F15 deferred: the panel colours set the light */
 #define APP_MAX_CMDS        (8u)
 
 typedef enum
@@ -73,6 +76,7 @@ typedef enum
     APP_CMD_LAMP_PULSE,
     APP_CMD_LAMP_BREATHE,    /* arg = 0 / 1 */
     APP_CMD_LAMP_TINT,       /* arg = hue, level_pm = strength */
+    APP_CMD_LAMP_FLICKER,    /* arg = 0 / 1 */
 } app_cmd_type_t;
 
 typedef struct

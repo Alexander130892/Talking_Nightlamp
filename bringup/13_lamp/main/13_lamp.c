@@ -28,7 +28,7 @@ void app_main(void)
 {
     const lamp_config_t cfg =
     {
-        .strip = { .data_gpio = GPIO_NUM_32, .n_pixels = 20u },
+        .strip     = { .data_gpio = GPIO_NUM_32, .n_pixels = 20u },
         .task_prio = 3u,
     };
 
@@ -41,6 +41,11 @@ void app_main(void)
 
         lamp_pulse();
         step("2. pulse at full: soft dip (F9)", 2000u);
+
+        lamp_flicker(true);
+        step("2b. candle flicker, as during a story (F16)", 15000u);
+        lamp_flicker(false);
+        step("    flicker off: glides back to steady", 3000u);
 
         lamp_breathe(true);
         step("3. breathing on (F2 grace signal)", 5000u);

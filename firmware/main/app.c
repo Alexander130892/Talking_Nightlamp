@@ -66,7 +66,7 @@ static const char *cmd_name(app_cmd_type_t t)
     static const char *names[] =
     {
         "PLAY", "PAUSE", "RESUME", "STOP", "CHIME", "VOLUME", "MUTE",
-        "LAMP_FADE", "LAMP_PULSE", "LAMP_BREATHE", "LAMP_TINT",
+        "LAMP_FADE", "LAMP_PULSE", "LAMP_BREATHE", "LAMP_TINT", "LAMP_FLICKER",
     };
     return ((size_t)t < (sizeof(names) / sizeof(names[0]))) ? names[t] : "?";
 }
@@ -91,6 +91,7 @@ static void run(const app_cmds_t *p_c)
             case APP_CMD_LAMP_PULSE:    lamp_pulse();                          break;
             case APP_CMD_LAMP_BREATHE:  lamp_breathe(0u != p->arg);            break;
             case APP_CMD_LAMP_TINT:     lamp_set_tint(p->arg, p->level_pm);    break;
+            case APP_CMD_LAMP_FLICKER:  lamp_flicker(0u != p->arg);            break;
             default:                                                           break;
         }
         ESP_LOGI(TAG, "  cmd %s arg %u level %u dur %lu", cmd_name(p->type),

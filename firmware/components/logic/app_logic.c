@@ -34,6 +34,11 @@ static void unmute(app_logic_t *p_app, app_cmds_t *p_c)
     }
 }
 
+static void flicker(app_cmds_t *p_c, bool b_on)
+{
+    add(p_c, APP_CMD_LAMP_FLICKER, b_on ? 1u : 0u, 0u, 0u);
+}
+
 static bool story_active(const app_logic_t *p_app)
 {
     return CARD_FSM_IDLE != card_fsm_state(&p_app->fsm);
@@ -63,6 +68,7 @@ static void story_stopped(app_logic_t *p_app, app_cmds_t *p_c, uint32_t now_ms)
 {
     p_app->b_wait_start = false;
     p_app->b_started    = false;
+    flicker(p_c, false);
     add(p_c, APP_CMD_AUDIO_STOP, 0u, 0u, 0u);
     add(p_c, APP_CMD_LAMP_BREATHE, 0u, 0u, 0u);
     if (lamp_lit(p_app))
@@ -94,6 +100,7 @@ static void do_action(app_logic_t *p_app, app_cmds_t *p_c, card_output_t out,
             if (p_app->b_started)
             {
                 add(p_c, APP_CMD_AUDIO_STOP, 0u, 0u, 0u);  /* previous story */
+                flicker(p_c, false);
             }
             p_app->b_started    = false;
             p_app->b_wait_start = true;              /* the light goes first */
@@ -115,21 +122,28 @@ static void do_action(app_logic_t *p_app, app_cmds_t *p_c, card_output_t out,
                 p_app->b_started    = true;
                 add(p_c, APP_CMD_AUDIO_PLAY, p_app->story_id, 0u, 0u);
             }
+            flicker(p_c, true);
             card_lamp(p_app, p_c, false, 0u);
             break;
         case CARD_ACT_PAUSE:
             p_app->b_wait_start = false;   /* not started: starts on resume */
             add(p_c, APP_CMD_AUDIO_PAUSE, 0u, 0u, 0u);
+            flicker(p_c, false);                     /* paused = still light */
             add(p_c, APP_CMD_LAMP_BREATHE, 0u, 0u, 0u);    /* stays full */
             break;
         case CARD_ACT_STOP:
             story_stopped(p_app, p_c, now_ms);
             break;
         case CARD_ACT_LAMP_LOST:
+            flicker(p_c, false);                     /* breathing must stand out */
             add(p_c, APP_CMD_LAMP_BREATHE, 1u, 0u, 0u);
             break;
         case CARD_ACT_LAMP_RESTORE:
             add(p_c, APP_CMD_LAMP_BREATHE, 0u, 0u, 0u);
+            if (p_app->b_started)
+            {
+                flicker(p_c, true);                  /* story still playing */
+            }
             break;
         case CARD_ACT_UNKNOWN:
             if (!p_app->b_fault)
@@ -251,6 +265,7 @@ app_cmds_t app_logic_story_end(app_logic_t *p_app, bool b_error, uint32_t now_ms
         add(&c, APP_CMD_AUDIO_CHIME, 0u, 0u, 0u);
         add(&c, APP_CMD_LAMP_PULSE, 0u, 0u, 0u);
         add(&c, APP_CMD_LAMP_BREATHE, 0u, 0u, 0u);
+        flicker(&c, false);
         lamp_fade(&c, 0u, APP_ERROR_FADE_MS);
         p_app->b_wait_start = false;
         p_app->b_started    = false;
@@ -269,6 +284,7 @@ app_cmds_t app_logic_tick(app_logic_t *p_app, uint32_t now_ms)
         p_app->b_wait_start = false;
         p_app->b_started    = true;
         add(&c, APP_CMD_AUDIO_PLAY, p_app->story_id, 0u, 0u);
+        flicker(&c, true);                       /* the candle starts with the story */
     }
 
     if ((p_app->fault_pulses_left > 0u) &&
