@@ -13,8 +13,6 @@
 #include "driver/gpio.h"
 
 static const char *TAG = "test";
-gpio_set_direction(GPIO_NUM_21, GPIO_MODE_OUTPUT);
-gpio_set_level(GPIO_NUM_21, 0);
 
 void app_main(void)
 {

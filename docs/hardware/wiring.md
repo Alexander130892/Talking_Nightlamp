@@ -73,3 +73,64 @@ The speaker set ships with a 4-pin JST-PH plug. Cut it off one speaker and
 crimp/solder the 2-pin JST-PH cable that fits the amplifier's speaker port.
 The MAX98357A output is **bridge-tied**: neither speaker wire is ground. Never
 connect either output to GND or to a scope ground clip.
+## Connectors
+
+Every link between the base and a removable part (lid, front panel) goes
+through a JST-XH (2.54 mm) connector: the header is soldered on the
+perfboard, the cable ends in a crimped housing. Each connector has a
+different pin count, so no plug fits a wrong header, and XH housings only
+fit one way round. Pin 1 is marked by the triangle on the housing and a
+marker dot on the board.
+
+Wire colours: **black is always GND, red is always the supply.** Only six
+colours are available, so two wires carry a tape band at both ends.
+
+### J1: lid, RC522 (7 pins)
+
+| Pin | Signal | ESP32 / board | Colour |
+|---|---|---|---|
+| 1 | GND | GND | black |
+| 2 | +3V3 | 3V3 | red, **white band** (this red is 3.3 V, never 5 V) |
+| 3 | SCK | GPIO 18 | yellow |
+| 4 | MOSI | GPIO 23 | green |
+| 5 | MISO | GPIO 19 | blue |
+| 6 | SDA (CS) | GPIO 5 | white |
+| 7 | RST | GPIO 22 | yellow, **black band** |
+
+### J2: lid, LED strip (3 pins)
+
+| Pin | Signal | Board | Colour |
+|---|---|---|---|
+| 1 | GND | star GND | black |
+| 2 | +5V | star +5V | red |
+| 3 | DATA | 74AHCT125 1Y (pin 3) | green |
+
+The 330 Ω data resistor and the 470 µF capacitor sit **in the lid**, at the
+strip's input (resistor in series with DATA, capacitor across +5V/GND,
+stripe to GND).
+
+### J3: front panel, button and encoder (6 pins)
+
+| Pin | Signal | ESP32 / board | Colour |
+|---|---|---|---|
+| 1 | GND | encoder C and one SW pin | black |
+| 2 | ENC_A | GPIO 34 (10 kΩ pull-up + 10 nF on the perfboard) | yellow |
+| 3 | ENC_B | GPIO 35 (10 kΩ pull-up + 10 nF on the perfboard) | green |
+| 4 | ENC_SW | GPIO 17, other SW pin | blue |
+| 5 | BTN | GPIO 16, button NO spade | white |
+| 6 | GND | button COM spade | black |
+
+### Not on XH connectors
+
+| Link | How |
+|---|---|
+| Speaker → amplifier | 2-pin JST-PH (speaker set) |
+| USB-C block → star point | soldered, 22–24 AWG red / black |
+
+### Wiring practice
+
+- 22–24 AWG for +5V and GND to the amp, LEDs and ESP32; 26–28 AWG for signals.
+- Twist each bundle loosely; in J1 twist SCK around a GND wire.
+- Lengths: J1 and J2 about 15 cm, J3 about 10 cm: the cube opens flat
+  without unplugging.
+- Every bundle is cable-tied to the base before it reaches a joint or plug.
