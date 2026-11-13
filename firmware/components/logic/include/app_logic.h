@@ -44,7 +44,7 @@
 #define APP_VOLUME_MAX      (15u)
 #define APP_VOLUME_START    (10u)
 #define APP_LEVEL_FULL_PM   (1000u)
-#define APP_LEVEL_GLOW_PM   (80u)          /* 12 LEDs at W = 1; tune in D2 */
+#define APP_LEVEL_GLOW_PM   (80u)          /* 20 LEDs at W = 1; tune in D2 */
 #define APP_WARMUP_MS       (15000u)        /* new story: slow warm-up */
 #define APP_RESUME_MS       (2000u)         /* resume: back to full */
 #define APP_STORY_DELAY_MS  (8000u)        /* audio waits for the light */

@@ -34,7 +34,7 @@
 
 /* SK6812 RGBW strip via 74AHCT125, driven by RMT */
 #define BOARD_LED_DATA       (32)
-#define BOARD_LED_COUNT      (12)
+#define BOARD_LED_COUNT (20u)   /* ring Ø 106 mm, 60 LED/m (ADR 0006) */
 
 /* Controls */
 #define BOARD_BTN_LAMP       (16) /* internal pull-up, active low */

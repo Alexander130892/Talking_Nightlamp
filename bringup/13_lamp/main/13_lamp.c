@@ -28,7 +28,7 @@ void app_main(void)
 {
     const lamp_config_t cfg =
     {
-        .strip     = { .data_gpio = GPIO_NUM_32, .n_pixels = 12u },
+        .strip = { .data_gpio = GPIO_NUM_32, .n_pixels = 20u },
         .task_prio = 3u,
     };
 

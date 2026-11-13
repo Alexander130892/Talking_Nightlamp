@@ -37,6 +37,9 @@ MISO is wired directly and needs nothing. After the mod the module is
 **3.3 V logic only**: never connect it to a 5 V microcontroller.
 See [ADR 0012](../decisions/0012-microsd-module-mod.md).
 
+| GND | 74AHCT125 1OE (pin 1) | OE is active low |
+| GND | 74AHCT125 2OE+2A, 3A+3OE, 4A+4OE (pins 4-5, 9-10, 12-13) | unused buffers: all pins to GND, outputs 6, 8, 11 open |
+
 ## Signal nets
 
 | From | To | Notes |
@@ -61,6 +64,10 @@ See [ADR 0012](../decisions/0012-microsd-module-mod.md).
 | GND | 74AHCT125 1OE (pin 1) | OE is active low |
 | GND | 74AHCT125 2A, 3A, 4A (pins 5, 9, 12) | tie unused inputs |
 | — | 74AHCT125 2OE, 3OE, 4OE (pins 4, 10, 13) | tie to +5V (outputs disabled) |
+
+update 
+| GND | 74AHCT125 1OE (pin 1) | OE is active low |
+| GND | 74AHCT125 2OE+2A, 3A+3OE, 4A+4OE (pins 4-5, 9-10, 12-13) | unused buffers: all pins to GND, outputs 6, 8, 11 open |
 | GPIO 16 | lamp button → GND | internal pull-up |
 | GPIO 17 | encoder SW → GND | internal pull-up |
 | GPIO 34 | encoder A | 10 kΩ to +3V3, 10 nF to GND |
